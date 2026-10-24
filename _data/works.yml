@@ -1,0 +1,21 @@
+# 作品データ（1作品 = 1エントリ）。項目の意味は CLAUDE.md を参照。
+# 一覧は id の降順（新しいものが先頭）で表示される。
+# width / height は thumb の実寸。_tools/make-images.ps1 の出力をそのまま貼る。
+
+- id: 2024-02
+  year: 2024
+  tools: 透明水彩・ペン
+  image: /assets/images/works/2024-02.jpg
+  thumb: /assets/images/thumbs/2024-02.jpg
+  width: 640
+  height: 443
+  alt: 白い花が一面に咲く水辺で、フリルのドレスを着た短い髪の少女が石畳に座り、振り返っている水彩画
+
+- id: 2024-01
+  year: 2024
+  tools: 透明水彩・ペン
+  image: /assets/images/works/2024-01.jpg
+  thumb: /assets/images/thumbs/2024-01.jpg
+  width: 419
+  height: 640
+  alt: 緑の髪の少女が、コウモリ・蝶・鳥・昆虫の翼と長い尾を持ち、うつむいて四つん這いになっている水彩画

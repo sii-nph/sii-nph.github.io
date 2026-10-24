@@ -1,0 +1,13 @@
+title: sii-nph
+description: sii-nph が描いたアナログ作品をまとめたポートフォリオです。
+lang: ja
+
+# 公開しないファイル（_ で始まるフォルダは Jekyll が自動で除外する）
+exclude:
+  - README.md
+  - CLAUDE.md
+  - Gemfile
+  - Gemfile.lock
+  - _inbox
+  - _tools
+  - vendor

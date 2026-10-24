@@ -1,0 +1,180 @@
+:root {
+  --bg: #fafafa;
+  --fg: #222;
+  --muted: #666;
+  --accent: #2563eb;
+  --card: #fff;
+  --border: #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111418;
+    --fg: #e8e8e8;
+    --muted: #9aa0a6;
+    --accent: #6ea8ff;
+    --card: #1a1f26;
+    --border: #2b323b;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  line-height: 1.8;
+}
+
+a { color: var(--accent); }
+
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.site-header h1 { margin: 0; font-size: 1.4rem; }
+.site-header h1 a { color: inherit; text-decoration: none; }
+.site-header nav a { margin-right: 16px; text-decoration: none; }
+
+main, footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+section {
+  margin: 24px 0;
+  padding: 20px 24px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+section h2 { margin-top: 0; font-size: 1.2rem; }
+
+/* 文章のセクションは読みやすい幅に絞る */
+.hero, #about, #contact {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero h2 { font-size: 1.8rem; }
+
+/* 作品一覧: 絵が主役なので、カードにせず余白だけにする */
+.works {
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+}
+
+footer {
+  padding-top: 16px;
+  padding-bottom: 32px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+footer p { margin: 0; }
+
+/* タイル一覧: 縦横比のまま、切り抜かずに行ごとに揃える */
+.tiles {
+  --row-height: 260px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 最終行が極端に引き伸ばされないようにする */
+.tiles::after {
+  content: "";
+  flex-grow: 999;
+}
+
+.tile {
+  flex-grow: calc(var(--w) * 100 / var(--h));
+  width: calc(var(--w) * var(--row-height) / var(--h));
+}
+
+.tile a { display: block; }
+
+.tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+  .tiles { --row-height: 180px; gap: 8px; }
+}
+
+/* 拡大表示 */
+.lightbox {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+}
+
+.lightbox::backdrop { background: rgba(0, 0, 0, 0.88); }
+
+.lightbox-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 56px 16px 16px;
+}
+
+.lightbox figure { margin: 0; text-align: center; }
+
+.lightbox img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 120px);
+  margin: 0 auto;
+}
+
+.lightbox figcaption {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.lightbox-button {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightbox-button:hover,
+.lightbox-button:focus-visible { background: rgba(255, 255, 255, 0.32); }
+
+.lightbox-close { top: 8px; right: 8px; }
+.lightbox-prev  { top: 50%; left: 8px; transform: translateY(-50%); }
+.lightbox-next  { top: 50%; right: 8px; transform: translateY(-50%); }

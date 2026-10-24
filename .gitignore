@@ -1,0 +1,12 @@
+# 元データ置き場（公開しない・commit しない）
+_inbox/
+
+# Jekyll の生成物
+_site/
+.jekyll-cache/
+.sass-cache/
+.bundle/
+vendor/
+
+# Pages は使わず、Windows 固有の内容になるため管理しない
+Gemfile.lock

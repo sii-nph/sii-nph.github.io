@@ -1,49 +1,48 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>sii-nph のホームページ</title>
-  <meta name="description" content="sii-nph の個人ホームページです。">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header class="site-header">
-    <h1>sii-nph</h1>
-    <nav>
-      <a href="#about">自己紹介</a>
-      <a href="#works">制作物</a>
-      <a href="#contact">連絡先</a>
-    </nav>
-  </header>
+---
+layout: default
+---
+<section class="hero">
+  <h2>はじめまして</h2>
+  <p>透明水彩とペンで描いた絵をまとめています。</p>
+</section>
 
-  <main>
-    <section class="hero">
-      <h2>はじめまして</h2>
-      <p>ここは sii-nph の個人ホームページです。現在準備中です。</p>
-    </section>
+<section id="works" class="works">
+  <h2>作品</h2>
+  {% assign works = site.data.works | sort: "id" | reverse %}
+  <ul class="tiles">
+    {% for work in works %}
+    <li class="tile" style="--w: {{ work.width }}; --h: {{ work.height }};">
+      <a href="{{ work.image | relative_url }}"
+         data-year="{{ work.year }}"
+         data-tools="{{ work.tools | escape }}"
+         {% if work.title %}data-title="{{ work.title | escape }}"{% endif %}>
+        <img src="{{ work.thumb | relative_url }}"
+             width="{{ work.width }}" height="{{ work.height }}"
+             alt="{{ work.alt | escape }}" loading="lazy">
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
 
-    <section id="about">
-      <h2>自己紹介</h2>
-      <p>ここに自己紹介を書きます。（仮）</p>
-    </section>
+<section id="about">
+  <h2>自己紹介</h2>
+  <p>ここに自己紹介を書きます。（仮）</p>
+</section>
 
-    <section id="works">
-      <h2>制作物</h2>
-      <ul>
-        <li>作品 1（仮）</li>
-        <li>作品 2（仮）</li>
-      </ul>
-    </section>
+<section id="contact">
+  <h2>連絡先</h2>
+  <p>GitHub: <a href="https://github.com/sii-nph">github.com/sii-nph</a></p>
+</section>
 
-    <section id="contact">
-      <h2>連絡先</h2>
-      <p>GitHub: <a href="https://github.com/sii-nph">github.com/sii-nph</a></p>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2026 sii-nph</p>
-  </footer>
-</body>
-</html>
+<dialog id="lightbox" class="lightbox" aria-label="作品の拡大表示">
+  <div class="lightbox-inner">
+    <button type="button" class="lightbox-button lightbox-close" data-action="close" aria-label="閉じる">&times;</button>
+    <button type="button" class="lightbox-button lightbox-prev" data-action="prev" aria-label="前の作品">&lsaquo;</button>
+    <button type="button" class="lightbox-button lightbox-next" data-action="next" aria-label="次の作品">&rsaquo;</button>
+    <figure>
+      <img alt="">
+      <figcaption></figcaption>
+    </figure>
+  </div>
+</dialog>
