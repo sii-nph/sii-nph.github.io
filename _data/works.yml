@@ -1,21 +1,43 @@
 # 作品データ（1作品 = 1エントリ）。項目の意味は CLAUDE.md を参照。
 # 一覧は id の降順（新しいものが先頭）で表示される。
-# width / height は thumb の実寸。_tools/make-images.ps1 の出力をそのまま貼る。
+# width / height は image の実寸。_tools/make-images.ps1 の出力をそのまま貼る。
+
+- id: 2025-03
+  year: 2025
+  tools: 透明水彩・ペン
+  image: /assets/images/works/2025-03.jpg
+  width: 1600
+  height: 1107
+  alt: 紫がかったピンクの水彩で描かれた、短い髪の少女がこちらを見つめ、両手を前に差し出している絵
+
+- id: 2025-02
+  year: 2025
+  tools: 透明水彩・ペン
+  image: /assets/images/works/2025-02.jpg
+  width: 1102
+  height: 1600
+  alt: 淡い灰色の水彩とペンで描かれた、三つ編みを結い上げた髪とリボンのブラウスの少女が微笑み、周りから多くの手が伸びている絵
+
+- id: 2025-01
+  year: 2025
+  tools: 透明水彩・ペン
+  image: /assets/images/works/2025-01.jpg
+  width: 1063
+  height: 1600
+  alt: 緑色の水彩とペンで描かれた、前髪の揃った少女が口を大きく開けて上を向き、片手を頬に添えている絵
 
 - id: 2024-02
   year: 2024
   tools: 透明水彩・ペン
   image: /assets/images/works/2024-02.jpg
-  thumb: /assets/images/thumbs/2024-02.jpg
-  width: 640
-  height: 443
+  width: 1600
+  height: 1108
   alt: 白い花が一面に咲く水辺で、フリルのドレスを着た短い髪の少女が石畳に座り、振り返っている水彩画
 
 - id: 2024-01
   year: 2024
   tools: 透明水彩・ペン
   image: /assets/images/works/2024-01.jpg
-  thumb: /assets/images/thumbs/2024-01.jpg
-  width: 419
-  height: 640
+  width: 1048
+  height: 1600
   alt: 緑の髪の少女が、コウモリ・蝶・鳥・昆虫の翼と長い尾を持ち、うつむいて四つん這いになっている水彩画

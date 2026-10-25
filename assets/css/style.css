@@ -1,21 +1,15 @@
 :root {
-  --bg: #fafafa;
-  --fg: #222;
-  --muted: #666;
-  --accent: #2563eb;
-  --card: #fff;
-  --border: #e5e7eb;
-}
+  --bg: #ffffff;
+  --fg: #2b3337;
+  --muted: #5b666b;
+  --accent: #59b9c6;         /* 新橋色。装飾専用（文字には薄すぎる） */
+  --accent-strong: #1f7482;  /* 新橋色の濃い版。リンクなど文字に使う */
+  --accent-soft: #e6f4f7;    /* 新橋色の淡い面 */
+  --border: #dcebee;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111418;
-    --fg: #e8e8e8;
-    --muted: #9aa0a6;
-    --accent: #6ea8ff;
-    --card: #1a1f26;
-    --border: #2b323b;
-  }
+  --page-width: 1100px;
+  --feed-width: 520px;
+  --image-max-height: clamp(360px, 72vh, 720px);  /* 絵1枚の高さの上限 */
 }
 
 * { box-sizing: border-box; }
@@ -28,7 +22,17 @@ body {
   line-height: 1.8;
 }
 
-a { color: var(--accent); }
+a {
+  color: var(--accent-strong);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
 
 .site-header {
   display: flex;
@@ -36,91 +40,170 @@ a { color: var(--accent); }
   align-items: center;
   justify-content: space-between;
   gap: 8px 24px;
-  max-width: 1100px;
+  max-width: var(--page-width);
   margin: 0 auto;
-  padding: 24px 16px;
+  padding: 28px 24px;
 }
 
-.site-header h1 { margin: 0; font-size: 1.4rem; }
+.site-header h1 { margin: 0; font-size: 1.25rem; letter-spacing: 0.06em; }
 .site-header h1 a { color: inherit; text-decoration: none; }
-.site-header nav a { margin-right: 16px; text-decoration: none; }
+
+.site-header nav a {
+  margin-right: 20px;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.site-header nav a:last-child { margin-right: 0; }
+
+.site-header nav a:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
 
 main, footer {
-  max-width: 1100px;
+  max-width: var(--page-width);
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px;
 }
 
-section {
-  margin: 24px 0;
-  padding: 20px 24px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+/* セクションはカードにせず、余白と短い線で区切る */
+section { margin: 56px 0; }
+
+section h2 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
 }
 
-section h2 { margin-top: 0; font-size: 1.2rem; }
-
-/* 文章のセクションは読みやすい幅に絞る */
-.hero, #about, #contact {
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
+section h2::after {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 3px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: var(--accent);
 }
 
 .hero h2 { font-size: 1.8rem; }
+.hero p { margin: 0; }
 
-/* 作品一覧: 絵が主役なので、カードにせず余白だけにする */
-.works {
-  padding: 0;
-  background: none;
-  border: 0;
-  border-radius: 0;
-}
+/* 文章のセクションは、作品の列と左端をそろえて読みやすい幅に絞る */
+.hero, #about, #contact { max-width: 560px; }
+
+/* 最後の絵と、その下のセクション（自己紹介）の間は広めに空ける。上のセクションの余白（56px）と重なるので、大きい方が効く */
+.works { margin-bottom: clamp(96px, 14vh, 160px); }
 
 footer {
-  padding-top: 16px;
-  padding-bottom: 32px;
+  margin-top: 80px;
+  padding-top: 24px;
+  padding-bottom: 40px;
+  border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 0.9rem;
 }
 
 footer p { margin: 0; }
 
-/* タイル一覧: 縦横比のまま、切り抜かずに行ごとに揃える */
-.tiles {
-  --row-height: 260px;
+/* 作品一覧: 左寄りの1列。JS が動くと、画面の中央に近い作品ほど大きく表示される */
+.feed {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-direction: column;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-/* 最終行が極端に引き伸ばされないようにする */
-.tiles::after {
-  content: "";
-  flex-grow: 999;
+/* 絵と絵の間隔。JS が動くと、feed.js が絵の大きさに合わせて --gap を入れる（縮んだ絵の空白を差し引くため、負の値になることもある）。JS が無いときは 32px */
+.feed-item + .feed-item { margin-top: var(--gap, 32px); }
+
+.feed-figure {
+  margin: 0;
+  width: min(100%, calc(var(--image-max-height) * var(--w) / var(--h)));
+  transform-origin: left center;
 }
 
-.tile {
-  flex-grow: calc(var(--w) * 100 / var(--h));
-  width: calc(var(--w) * var(--row-height) / var(--h));
+.feed-figure a {
+  display: block;
+  aspect-ratio: var(--w) / var(--h);
+  cursor: zoom-in;
 }
 
-.tile a { display: block; }
-
-.tile img {
+.feed-figure img {
   display: block;
   width: 100%;
   height: auto;
   border: 1px solid var(--border);
+  box-shadow: 0 8px 28px rgba(31, 116, 130, 0.08);
 }
 
-@media (max-width: 600px) {
-  .tiles { --row-height: 180px; gap: 8px; }
+/* 倍率と不透明度は feed.js が --s / --o に入れる。JS が動かないときは通常の大きさのまま */
+.feed.is-live .feed-figure {
+  transform: scale(var(--s, 1));
+  opacity: var(--o, 1);
+  will-change: transform, opacity;
 }
+
+/* 作品の情報。幅 900px 未満（右側の情報パネルが出ない幅）では、絵の下に小さく表示する。絵と一緒に拡大縮小する */
+.feed-caption {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* 900px 以上は、右側のパネルが同じ情報を出す。画面上は隠し、スクリーンリーダー用には残す */
+@media (min-width: 900px) {
+  .feed-caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+/* 作品の情報（パソコン幅のみ）。中央の作品の制作年・使用ツールを、画面の右側に固定して表示する */
+.feed-info { display: none; }
+
+@media (min-width: 900px) {
+  .works-layout {
+    display: grid;
+    grid-template-columns: minmax(0, var(--feed-width)) minmax(0, 1fr);
+    column-gap: 64px;
+    align-items: start;
+  }
+
+  .feed-info {
+    display: block;
+    position: sticky;
+    top: 42vh;
+    padding-left: 24px;
+    border-left: 3px solid var(--accent);
+  }
+
+  .feed-info[hidden] { display: none; }
+}
+
+.feed-year {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.feed-title { margin: 8px 0 0; font-weight: 600; }
+.feed-title:empty { display: none; }
+.feed-tools { margin: 8px 0 0; color: var(--muted); }
 
 /* 拡大表示 */
 .lightbox {
@@ -131,10 +214,10 @@ footer p { margin: 0; }
   padding: 0;
   border: 0;
   background: transparent;
-  color: #fff;
+  color: var(--fg);
 }
 
-.lightbox::backdrop { background: rgba(0, 0, 0, 0.88); }
+.lightbox::backdrop { background: rgba(247, 252, 253, 0.97); }
 
 .lightbox-inner {
   display: flex;
@@ -151,12 +234,14 @@ footer p { margin: 0; }
   max-width: 100%;
   max-height: calc(100vh - 120px);
   margin: 0 auto;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 36px rgba(31, 116, 130, 0.12);
 }
 
 .lightbox figcaption {
-  margin-top: 8px;
+  margin-top: 12px;
   font-size: 0.9rem;
-  color: #ddd;
+  color: var(--muted);
 }
 
 .lightbox-button {
@@ -165,15 +250,14 @@ footer p { margin: 0; }
   height: 44px;
   border: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
-  color: #fff;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   font-size: 1.6rem;
   line-height: 1;
   cursor: pointer;
 }
 
-.lightbox-button:hover,
-.lightbox-button:focus-visible { background: rgba(255, 255, 255, 0.32); }
+.lightbox-button:hover { background: #cfeaf0; }
 
 .lightbox-close { top: 8px; right: 8px; }
 .lightbox-prev  { top: 50%; left: 8px; transform: translateY(-50%); }

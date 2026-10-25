@@ -1,7 +1,7 @@
-// 作品の拡大表示。JS が無効でも、サムネイルのリンクから本画像を開ける。
+// 作品の拡大表示。JS が無効でも、一覧のリンクから本画像を開ける。
 (function () {
   var dialog = document.getElementById('lightbox');
-  var links = Array.prototype.slice.call(document.querySelectorAll('.tiles a'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('.feed a'));
   if (!dialog || typeof dialog.showModal !== 'function' || links.length === 0) return;
 
   var img = dialog.querySelector('img');

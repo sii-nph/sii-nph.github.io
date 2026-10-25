@@ -9,20 +9,32 @@ layout: default
 <section id="works" class="works">
   <h2>作品</h2>
   {% assign works = site.data.works | sort: "id" | reverse %}
-  <ul class="tiles">
-    {% for work in works %}
-    <li class="tile" style="--w: {{ work.width }}; --h: {{ work.height }};">
-      <a href="{{ work.image | relative_url }}"
-         data-year="{{ work.year }}"
-         data-tools="{{ work.tools | escape }}"
-         {% if work.title %}data-title="{{ work.title | escape }}"{% endif %}>
-        <img src="{{ work.thumb | relative_url }}"
-             width="{{ work.width }}" height="{{ work.height }}"
-             alt="{{ work.alt | escape }}" loading="lazy">
-      </a>
-    </li>
-    {% endfor %}
-  </ul>
+  <div class="works-layout">
+    <ul class="feed">
+      {% for work in works %}
+      <li class="feed-item" style="--w: {{ work.width }}; --h: {{ work.height }};">
+        <figure class="feed-figure">
+          <a href="{{ work.image | relative_url }}"
+             data-year="{{ work.year }}"
+             data-tools="{{ work.tools | escape }}"
+             {% if work.title %}data-title="{{ work.title | escape }}"{% endif %}>
+            <img src="{{ work.image | relative_url }}"
+                 width="{{ work.width }}" height="{{ work.height }}"
+                 alt="{{ work.alt | escape }}"
+                 {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                 decoding="async">
+          </a>
+          <figcaption class="feed-caption">{% if work.title %}{{ work.title }} · {% endif %}{{ work.year }} · {{ work.tools }}</figcaption>
+        </figure>
+      </li>
+      {% endfor %}
+    </ul>
+    <aside class="feed-info" aria-hidden="true" hidden>
+      <p class="feed-year"></p>
+      <p class="feed-title"></p>
+      <p class="feed-tools"></p>
+    </aside>
+  </div>
 </section>
 
 <section id="about">

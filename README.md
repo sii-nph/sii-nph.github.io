@@ -9,7 +9,8 @@
 
 - [Jekyll](https://jekyllrb.com/)(GitHub Pages 標準)
 - 公開は GitHub Pages の「`main` ブランチ / ルート」から。`main` に push すると、数分後に自動で反映されます
-- JavaScript は作品の拡大表示のみ(最小限)
+- JavaScript は、作品の拡大表示と、スクロールに応じた作品の大きさの切り替えのみ(最小限)
+- 配色は白と明るい色を基調に、アクセントは新橋色です(ダークモードはありません)
 
 ## ディレクトリ構成
 
@@ -18,14 +19,14 @@ Gemfile                  # github-pages gem など
 _config.yml              # Jekyll 設定
 _layouts/default.html    # 共通レイアウト
 _data/works.yml          # 作品データ(1作品 = 1エントリ)
-_tools/make-images.ps1   # 元画像から本画像とサムネイルを作るスクリプト
+_tools/make-images.ps1   # 元画像から公開用の本画像を作るスクリプト
 _tools/jekyll.sh         # WSL 上で Jekyll を実行するスクリプト(install / serve / build)
 _inbox/                  # 元画像の置き場(公開されない・git にも入らない)
 assets/css/style.css     # スタイル
+assets/js/feed.js        # 作品一覧のスクロール演出(中央の作品を大きく表示)
 assets/js/lightbox.js    # 拡大表示(最小限の JS)
 assets/images/works/     # 本画像(長辺 1600px)
-assets/images/thumbs/    # サムネイル(長辺 640px)
-index.html               # _data/works.yml からタイル一覧を生成
+index.html               # _data/works.yml から作品一覧を生成
 CLAUDE.md                # Claude Code 向けの作業ルール
 ```
 
@@ -36,8 +37,12 @@ CLAUDE.md                # Claude Code 向けの作業ルール
    ```powershell
    powershell -ExecutionPolicy Bypass -File _tools\make-images.ps1 -Source "_inbox\元画像.jpg" -Name 2024-03
    ```
-   - 本画像(長辺 1600px)が `assets/images/works/`、サムネイル(長辺 640px)が `assets/images/thumbs/` に出力されます
+   - 本画像(長辺 1600px)が `assets/images/works/` に出力されます(サムネイルはありません。一覧にも拡大表示にも本画像を使います)
    - `-Name` は `YYYY-NN`(制作年と、同じ年の通し番号)です
+   - スキャナーの背景(灰緑色)が写っている場合は、`-Crop "left,top,right,bottom"`(元画像の px)で紙の端まで切り詰めます。紙の端から約 60px 内側を指定すると、影や灰色が残りません。絵そのものは切りません
+     ```powershell
+     powershell -ExecutionPolicy Bypass -File _tools\make-images.ps1 -Source "_inbox\scan-003.jpg" -Name 2025-01 -Crop "60,60,4400,6590"
+     ```
    - 作風が伝わるよう、色や構図は原画に忠実に保ちます
 3. スクリプトが表示した `width` / `height` を使い、`_data/works.yml` に1件追記します
 4. 下記の「ローカルでの確認」を行います
@@ -50,9 +55,8 @@ CLAUDE.md                # Claude Code 向けの作業ルール
   year: 2024               # 制作年
   tools: 透明水彩・ペン      # 使用ツール
   image: /assets/images/works/2024-03.jpg
-  thumb: /assets/images/thumbs/2024-03.jpg
-  width: 640               # サムネイルの実寸(スクリプトの出力を貼る)
-  height: 443
+  width: 1600              # 本画像の実寸(スクリプトの出力を貼る)
+  height: 1108
   alt: 画像の内容を説明する文(必須)
   # title: 作品タイトル     # 任意。書いた場合だけ拡大表示に出ます
 ```
