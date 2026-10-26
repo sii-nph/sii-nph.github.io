@@ -16,6 +16,7 @@
   var GAP_MAX = 120;        // 同じく上限（px）
 
   var items = Array.prototype.slice.call(feed.querySelectorAll('.feed-item'));
+  var header = document.querySelector('.site-header');
   var info = document.querySelector('.feed-info');
   var yearEl = info && info.querySelector('.feed-year');
   var titleEl = info && info.querySelector('.feed-title');
@@ -23,6 +24,7 @@
 
   var centers = [];  // 各作品の中心（ページ先頭からの距離）
   var maxHeight = 0; // 最も高い絵の高さ
+  var headerHeight = 0; // 常時表示のヘッダーが隠す高さ
   var active = -1;
   var ticking = false;
 
@@ -33,7 +35,8 @@
   // 絵と絵の間隔と、各作品の位置を決める。読み込み時と画面サイズが変わったときだけ行う
   // （作品の高さは CSS で決まり、拡大縮小では変わらない）
   function measure() {
-    var gap = Math.max(GAP_MIN, Math.min(GAP_MAX, window.innerHeight * GAP_VIEWPORT));
+    headerHeight = header ? header.getBoundingClientRect().height : 0;
+    var gap =Math.max(GAP_MIN, Math.min(GAP_MAX, window.innerHeight * GAP_VIEWPORT));
     var heights = items.map(function (item) {
       return item.getBoundingClientRect().height;
     });
@@ -73,7 +76,8 @@
   function update() {
     ticking = false;
     var viewport = window.innerHeight;
-    var middle = scrollTop() + viewport / 2;
+    // 画面の上端はヘッダーに隠れるので、「画面の中央」は、見えている範囲（ヘッダーの下から画面の下端まで）の中央にする
+    var middle = scrollTop() + (viewport + headerHeight) / 2;
     var range = Math.min(viewport * RANGE_VIEWPORT, maxHeight * RANGE_IMAGE);
     var nearest = 0;
     var nearestDistance = Infinity;

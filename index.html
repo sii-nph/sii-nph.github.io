@@ -1,13 +1,9 @@
 ---
 layout: default
 ---
-<section class="hero">
-  <h2>はじめまして</h2>
-  <p>透明水彩とペンで描いた絵をまとめています。</p>
-</section>
-
 <section id="works" class="works">
-  <h2>作品</h2>
+  <h2>Works</h2>
+  <p class="works-lead">透明水彩とペンを中心に、手描きで描いた絵をまとめています。</p>
   {% assign works = site.data.works | sort: "id" | reverse %}
   <div class="works-layout">
     <ul class="feed">
@@ -38,13 +34,16 @@ layout: default
 </section>
 
 <section id="about">
-  <h2>自己紹介</h2>
-  <p>ここに自己紹介を書きます。（仮）</p>
+  <h2>About</h2>
+  <p>粃（sii-nph）です。透明水彩と丸ペンを中心に、手描きのアナログで絵を描いています。モチーフは、生き物や植物の構造です。</p>
 </section>
 
-<section id="contact">
-  <h2>連絡先</h2>
-  <p>GitHub: <a href="https://github.com/sii-nph">github.com/sii-nph</a></p>
+<section id="links">
+  <h2>Links</h2>
+  <ul class="links-list">
+    <li>X: <a href="https://x.com/sii_nph">@sii_nph</a></li>
+    <li>GitHub: <a href="https://github.com/sii-nph">github.com/sii-nph</a></li>
+  </ul>
 </section>
 
 <dialog id="lightbox" class="lightbox" aria-label="作品の拡大表示">
